@@ -20,20 +20,26 @@
         </div>
         <script>
             let user;
-            let mySocket
+            let mySocket;
+            let isConnected = false;
+
             function connect() {
-                mySocket = new WebSocket("ws://localhost:3001");
+                if (isConnected) return;
+                mySocket = new WebSocket('ws://localhost:3001');
 
                 mySocket.onopen = (event) => {
+                    isConnected = true;
                     console.info('WebSocket connection opened ', event);
                 };
 
                 mySocket.onerror = (error) => {
+                    isConnected = false;
                     console.error('WebSocket error occurs:', error);
                 };
 
-                mySocket.onclose = function (event) {
-                    console.info('WebSocket connection closed ', event);
+                mySocket.onclose = () => {
+                    isConnected = false;
+                    console.info('WebSocket connection closed'); 
                 };
 
                 mySocket.onmessage = (messageEvent) => {
@@ -48,8 +54,6 @@
                     newDiv.append(`[${data.user}] ${data.message}`);
                     document.getElementsByClassName('chat-content')[0].appendChild(newDiv);
                 }
-
-
             }
 
             function connectUser() {
@@ -72,5 +76,3 @@
         </script>
     </body>
 </html>
-
-;
