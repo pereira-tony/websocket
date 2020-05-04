@@ -27,6 +27,16 @@
                 mySocket.onopen = (event) => {
                     console.info('WebSocket connection opened ', event);
                 };
+
+                mySocket.onerror = (error) => {
+                    console.error('WebSocket error occurs:', error);
+                };
+
+                mySocket.onclose = function (event) {
+                    console.info('WebSocket connection closed ', event);
+                };
+
+
             }
 
             function connectUser() {
